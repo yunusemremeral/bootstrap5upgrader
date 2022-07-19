@@ -269,19 +269,232 @@
       }
     },
   
-   /* {
-      title: "Form Structural Changes",
-      description: "",
+    {
+      title: "BS 4 to 5 Changes - Forms & RTL",
+      description: '<h5 id="rtl">RTL<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#rtl" style="padding-left: 0.375em;"></a></h5><ul><li>Horizontal direction specific variables, utilities, and mixins have all been renamed to use logical properties like those found in flexbox layouts—e.g., <code>start</code> and <code>end</code> in lieu of <code>left</code> and <code>right</code>.</li></ul><h5 id="forms">Forms<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#forms" style="padding-left: 0.375em;"></a></h5><ul><li><p><strong>Added new floating forms!</strong> We’ve promoted the Floating labels example to fully supported form components. <a href="/docs/5.0/forms/floating-labels/">See the new Floating labels page.</a></p></li><li><p><span class="badge bg-danger">Breaking</span> <strong>Consolidated native and custom form elements.</strong> Checkboxes, radios, selects, and other inputs that had native and custom classes in v4 have been consolidated. Now nearly all our form elements are entirely custom, most without the need for custom HTML.</p><ul><li><code>.custom-check</code> is now <code>.form-check</code>.</li><li><code>.custom-check.custom-switch</code> is now <code>.form-check.form-switch</code>.</li><li><code>.custom-select</code> is now <code>.form-select</code>.</li><li><code>.custom-file</code> and <code>.form-file</code> have been replaced by custom styles on top of <code>.form-control</code>.</li><li><code>.custom-range</code> is now <code>.form-range</code>.</li><li>Dropped native <code>.form-control-file</code> and <code>.form-control-range</code>.</li></ul></li><li><p><span class="badge bg-danger">Breaking</span> Dropped <code>.input-group-append</code> and <code>.input-group-prepend</code>. You can now just add buttons and <code>.input-group-text</code> as direct children of the input groups.</p></li><li><p>The longstanding <a href="https://github.com/twbs/bootstrap/issues/25110">Missing border radius on input group with validation feedback bug</a> is finally fixed by adding an additional <code>.has-validation</code> class to input groups with validation.</p></li><li><p><span class="badge bg-danger">Breaking</span> <strong>Dropped form-specific layout classes for our grid system.</strong> Use our grid and utilities instead of <code>.form-group</code>, <code>.form-row</code>, or <code>.form-inline</code>.</p></li><li><p><span class="badge bg-danger">Breaking</span> Form labels now require <code>.form-label</code>.</p></li><li><p><span class="badge bg-danger">Breaking</span> <code>.form-text</code> no longer sets <code>display</code>, allowing you to create inline or block help text as you wish just by changing the HTML element.</p></li><li><p>Validation icons are no longer applied to <code>&lt;select&gt;</code>s with <code>multiple</code>.</p></li><li><p>Rearranged source Sass files under <code>scss/forms/</code>, including input group styles.</p></li></ul>',
       run: function (doc) {
+		var changedCount = 0;
+		var droppedCount = 0;
+		var otherWarnings = "";
+		
+        $customFile = $(doc).find(".custom-file");
+        $customFile.removeClass('custom-file').addClass('form-control');
+        changedCount += $customFile.length;
+		
+		$customCheck = $(doc).find(".custom-check");
+        $customCheck.removeClass('custom-check').addClass('form-check');
+        changedCount += $customCheck.length;
+		
+		$customCheckCustomSwitch = $(doc).find(".custom-check.custom-switch");
+        $customCheckCustomSwitch.removeClass('custom-check.custom-switch').addClass('form-check.form-switch');
+        changedCount += $customCheckCustomSwitch.length;
+		
+		$customSelect = $(doc).find(".custom-select");
+        $customSelect.removeClass('custom-select').addClass('form-select');
+        changedCount += $customSelect.length;
+		
+		$customFile = $(doc).find(".form-file");
+        $customFile.removeClass('form-file').addClass('form-control');
+        changedCount += $customFile.length;
+		
+		$customRange = $(doc).find(".custom-range");
+        $customRange.removeClass('custom-range').addClass('form-range');
+        changedCount += $customRange.length;
+		
+		
+		//dropssssssssssss
+		$textJustify = $(doc).find(".text-justify");
+        $textJustify.removeClass('text-justify')
+		droppedCount += $textJustify.length;
+		
+		$inputGroupAppend = $(doc).find(".input-group-append");
+        $inputGroupAppend.removeClass('input-group-append')
+		droppedCount += $inputGroupAppend.length;
+		
+		$inputGroupPrepend = $(doc).find(".input-group-prepend");
+        $inputGroupPrepend.removeClass('input-group-prepend')
+		droppedCount += $inputGroupPrepend.length;
+		
+		$formControlFile = $(doc).find(".form-control-file");
+        $formControlFile.removeClass('form-control-file')
+		droppedCount += $formControlFile.length;
+		
+		$leftItem = doc.documentElement.innerHTML.search('left');
+		$rightItem = doc.documentElement.innerHTML.search('right');
+		
+		
+		otherWarnings += ($leftItem != -1 || $rightItem != -1) ? "Check left or right notation (ntw: start and end)" : "";
+		otherWarnings += (droppedCount > 0) ? droppedCount + " Dropped" : "";
+		otherWarnings += (changedCount > 0) ? changedCount + " Replaced " : "";
+		
+		return otherWarnings;
+        
       }
     },
-  
-    {
-      title: "Modal Hide Class Removal",
-      description: "",
+	{
+      title: "BS 4 to 5 Changes - Buttons & Cards & Badges",
+      description: '<h5 id="buttons">Buttons<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#buttons" style="padding-left: 0.375em;"></a></h5><ul><li><p><span class="badge bg-danger">Breaking</span> <strong><a href="https://getbootstrap.com/docs/5.0/forms/checks-radios/#toggle-buttons">Toggle buttons</a>, with checkboxes or radios, no longer require JavaScript and have new markup.</strong> We no longer require a wrapping element, add <code>.btn-check</code> to the <code>&lt;input&gt;</code>, and pair it with any <code>.btn</code> classes on the <code>&lt;label&gt;</code>. <a href="https://github.com/twbs/bootstrap/pull/30650">See #30650</a>. <em>The docs for this has moved from our Buttons page to the new Forms section.</em></p></li><li><p><span class="badge bg-danger">Breaking</span> <strong>Dropped <code>.btn-block</code> for utilities.</strong> Instead of using <code>.btn-block</code> on the <code>.btn</code>, wrap your buttons with <code>.d-grid</code> and a <code>.gap-*</code> utility to space them as needed. Switch to responsive classes for even more control over them. <a href="https://getbootstrap.com/docs/5.0/components/buttons/#block-buttons">Read the docs for some examples.</a></p></li><li><p>Updated our <code>button-variant()</code> and <code>button-outline-variant()</code> mixins to support additional parameters.</p></li><li><p>Updated buttons to ensure increased contrast on hover and active states.</p></li><li><p>Disabled buttons now have <code>pointer-events: none;</code>.</p></li></ul><h5 id="card">Card<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#card" style="padding-left: 0.375em;"></a></h5><ul><li><p><span class="badge bg-danger">Breaking</span> Dropped <code>.card-deck</code> in favor of our grid. Wrap your cards in column classes and add a parent <code>.row-cols-*</code> container to recreate card decks (but with more control over responsive alignment).</p></li><li><p><span class="badge bg-danger">Breaking</span> Dropped <code>.card-columns</code> in favor of Masonry. <a href="https://github.com/twbs/bootstrap/pull/28922">See #28922</a>.</p></li><li><p><span class="badge bg-danger">Breaking</span> Replaced the <code>.card</code> based accordion with a <a href="/docs/5.0/components/accordion/">new Accordion component</a>.</p></li></ul><h5 id="badges">Badges<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#badges" style="padding-left: 0.375em;"></a></h5><ul><li><p><span class="badge bg-danger">Breaking</span> Dropped all <code>.badge-*</code> color classes for background utilities (e.g., use <code>.bg-primary</code> instead of <code>.badge-primary</code>).</p></li><li><p><span class="badge bg-danger">Breaking</span> Dropped <code>.badge-pill</code>—use the <code>.rounded-pill</code> utility instead.</p></li><li><p><span class="badge bg-danger">Breaking</span> Removed hover and focus styles for <code>&lt;a&gt;</code> and <code>&lt;button&gt;</code> elements.</p></li><li><p>Increased default padding for badges from <code>.25em</code>/<code>.5em</code> to <code>.35em</code>/<code>.65em</code>.</p></li></ul>',
       run: function (doc) {
+		var droppedCount = 0;
+		var otherWarnings = "";
+		var changedCount = 0;
+		
+		$badgePill = $(doc).find(".badge-pill");
+        $badgePill.removeClass('badge-pill').addClass('rounded-pill');
+        changedCount += $badgePill.length;
+	    
+		$badgeItem = doc.documentElement.innerHTML.search('badge');
+		
+		$buttonBlock = $(doc).find(".btn-block");
+        $buttonBlock.removeClass('btn-block')
+		droppedCount += $buttonBlock.length;
+		
+		$cardColumns = $(doc).find(".card-columns");
+        $cardColumns.removeClass('card-columns')
+		droppedCount += $cardColumns.length;
+		
+		$cardColumns = $(doc).find(".close");
+		
+		
+		otherWarnings += ($badgeItem != -1) ? "Check Badge" : "";
+		otherWarnings += (droppedCount > 0) ? droppedCount + " Dropped" : "";
+		otherWarnings += (changedCount > 0) ? changedCount + " Replaced " : "";
+		otherWarnings += ($cardColumns.length > 0) ? "Check .close class, it changed with .btn-class" : "";
+		return otherWarnings;
       }
-    } */
+	},
+	{
+      title: "BS 4 to 5 Changes - Popovers & Tooltips",
+      description: '<h5 id="popovers">Popovers<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#popovers" style="padding-left: 0.375em;"></a></h5><ul><li><p><span class="badge bg-danger">Breaking</span> Renamed <code>.arrow</code> to <code>.popover-arrow</code> in our default popover template.</p></li><li><p>Renamed <code>whiteList</code> option to <code>allowList</code>.</p></li></ul><h5 id="tooltips">Tooltips<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#tooltips" style="padding-left: 0.375em;"></a></h5><ul><li><p><span class="badge bg-danger">Breaking</span> Renamed <code>.arrow</code> to <code>.tooltip-arrow</code> in our default tooltip template.</p></li><li><p><span class="badge bg-danger">Breaking</span> The default value for the <code>fallbackPlacements</code> is changed to <code>["top", "right", "bottom", "left"]</code> for better placement of popper elements.</p></li><li><p><span class="badge bg-danger">Breaking</span> Renamed <code>whiteList</code> option to <code>allowList</code>.</p></li></ul>',
+      run: function (doc) {
+		var droppedCount = 0;
+		var otherWarnings = "";
+		var changedCount = 0;
+		
+		$arrow = $(doc).find(".arrow");	
+		$whiteList = doc.documentElement.innerHTML.search('whiteList');
+		
+		otherWarnings += ($arrow.length > 0) ? "Check .arrow class, it changed with .popover-arrow or .tooltip-arrow" : "";
+		otherWarnings += ($whiteList != -1) ? "Check whiteList for Tooltips, it changed with allowList" : "";
+		return otherWarnings;
+      }
+    },
+	{
+      title: "BS 4 to 5 Changes - Utilities",
+      description: '<li><p><span class="badge bg-danger">Breaking</span> Renamed several utilities to use logical property names instead of directional names with the addition of RTL support:</p><ul><li>Renamed <code>.left-*</code> and <code>.right-*</code> to <code>.start-*</code> and <code>.end-*</code>.</li><li>Renamed <code>.float-left</code> and <code>.float-right</code> to <code>.float-start</code> and <code>.float-end</code>.</li><li>Renamed <code>.border-left</code> and <code>.border-right</code> to <code>.border-start</code> and <code>.border-end</code>.</li><li>Renamed <code>.rounded-left</code> and <code>.rounded-right</code> to <code>.rounded-start</code> and <code>.rounded-end</code>.</li><li>Renamed <code>.ml-*</code> and <code>.mr-*</code> to <code>.ms-*</code> and <code>.me-*</code>.</li><li>Renamed <code>.pl-*</code> and <code>.pr-*</code> to <code>.ps-*</code> and <code>.pe-*</code>.</li><li>Renamed <code>.text-left</code> and <code>.text-right</code> to <code>.text-start</code> and <code>.text-end</code>.</li></ul></li>',
+      run: function (doc) {
+		var droppedCount = 0;
+		var otherWarnings = "";
+		var changedCount = 0;
+		
+		$floatLeft = $(doc).find(".float-left");
+        $floatLeft.removeClass('float-left').addClass('float-start');
+        changedCount += $floatLeft.length;
+		
+		$floatRight = $(doc).find(".float-right");
+        $floatRight.removeClass('float-right').addClass('float-end');
+        changedCount += $floatRight.length;
+		
+		$borderLeft = $(doc).find(".border-left");
+        $borderLeft.removeClass('border-left').addClass('border-start');
+        changedCount += $borderLeft.length;
+		
+		$borderRight = $(doc).find(".border-right");
+        $borderRight.removeClass('border-right').addClass('border-end');
+        changedCount += $borderRight.length;
+	  
+	    $roundedLeft = $(doc).find(".rounded-left");
+        $roundedLeft.removeClass('rounded-left').addClass('rounded-start');
+        changedCount += $roundedLeft.length;
+		
+		$roundedRight = $(doc).find(".rounded-right");
+        $roundedRight.removeClass('rounded-right').addClass('rounded-end');
+        changedCount += $roundedRight.length;
+		
+		$borderRight = $(doc).find(".border-right");
+        $borderRight.removeClass('border-right').addClass('border-end');
+        changedCount += $borderRight.length;
+		
+		$textLeft = $(doc).find(".text-left");
+        $textLeft.removeClass('text-left').addClass('text-start');
+        changedCount += $textLeft.length;
+		
+		$textRight = $(doc).find(".text-right");
+        $textRight.removeClass('text-right').addClass('text-end');
+        changedCount += $textRight.length;
+		
+		$textMonospace = $(doc).find(".text-monospace");
+        $textMonospace.removeClass('text-monospace').addClass('font-monospace');
+        changedCount += $textMonospace.length;
+		
+		otherWarnings += (changedCount > 0) ? changedCount + " Replaced " : "";
+		otherWarnings += ($arrow.length > 0) ? " Check .arrow class, it changed with .popover-arrow or .tooltip-arrow" : "";
+		otherWarnings += ($badgeItem != -1) ? " Check whiteList for Tooltips, it changed with allowList" : "";
+		return otherWarnings;
+      }
+    },
+	{
+	  title: "BS 4 to 5 Changes - Replace all parts of class",
+      description: '',
+      run: function (doc) {
+		var changedCount = 0;
+		var otherWarnings = "";
+		
+		$fontWeight = doc.search('font-weight-');
+		if($fontWeight != -1)
+			doc = doc.replaceAll('font-weight-','fw-');
+		changedCount += ($fontWeight != -1 ? 1 : 0);
+		
+		$fontStyle = doc.search('font-style-');
+		if($fontStyle != -1)
+			doc = doc.replaceAll('font-style-','fst-');
+		changedCount += ($fontStyle != -1 ? 1 : 0);
+		
+		$mlNotation = doc.search('ml-');
+		if($mlNotation != -1)
+			doc = doc.replaceAll('ml-','ms-');
+		changedCount += ($mlNotation != -1 ? 1 : 0);
+		
+		$mrNotation = doc.search('mr-');
+		if($mrNotation != -1)
+			doc = doc.replaceAll('mr-','me-');
+		changedCount += ($mrNotation != -1 ? 1 : 0);
+		
+		$plNotation = doc.search('pl-');
+		if($plNotation != -1)
+			doc = doc.replaceAll('pl-','ps-');
+		changedCount += ($plNotation != -1 ? 1 : 0);
+		
+		$prNotation = doc.search('pr-');
+		if($prNotation != -1)
+			doc = doc.replaceAll('pr-','pe-');
+		changedCount += ($prNotation != -1 ? 1 : 0);
+		
+		$leftNotation = doc.search('left-');
+		if($leftNotation != -1)
+			doc = doc.replaceAll('left-','start-');
+		changedCount += ($leftNotation != -1 ? 1 : 0);
+		
+		$rightNotation = doc.search('right-');
+		if($rightNotation != -1)
+			doc = doc.replaceAll('right-','end-');
+		changedCount += ($rightNotation != -1 ? 1 : 0);
+		
+		$dataToggle = doc.search('data-toggle=');
+		if($dataToggle != -1)
+			doc = doc.replaceAll('data-toggle=','data-bs-toggle=');
+		changedCount += ($dataToggle != -1 ? 1 : 0);
+		
+		$whiteList = doc.search('whitelist');
+		if($whiteList != -1)
+			doc = doc.replaceAll('whitelist','allowList');
+		changedCount += ($whiteList != -1 ? 1 : 0);
+		
+		otherWarnings += (changedCount > 0) ? changedCount + " Replaced " : "";
+		return {res: otherWarnings, output: doc};
+	}
+	}
+	
   ];
   
   var Upgrader = {
@@ -289,12 +502,17 @@
     perform: function(input, report) {
       var doc = (new DOMParser()).parseFromString(input, 'text/html');
       var results = [];
-      for (var i = 0; i < Upgrader.rules.length; i++) {
+      for (var i = 0; i < Upgrader.rules.length-1; i++) {
         var rule = Upgrader.rules[i];
         results.push(rule.run(doc));
       }
       
       var output = "<!doctype html>\n" + doc.getElementsByTagName("html")[0].outerHTML;
+	  var response = Upgrader.rules[Upgrader.rules.length-1].run(output);
+	  
+	  output = response.output;
+	  results.push(response.res);
+	  
       
       if (report) {
         return {
