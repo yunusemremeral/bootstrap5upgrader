@@ -1,7 +1,7 @@
-# Bootstrap 4 upgrader
-Bootstrap 4 Upgrader. From Bootstrap v.3. to v.4.
+# Bootstrap 5 upgrader
+Bootstrap 5 Upgrader. From Bootstrap v.3. to v.5.
 
-Initialy forked from Divshot Bootstrap 3 upgrader https://github.com/divshot/bootstrap3_upgrader
+forked from: https://github.com/Bootstraptor/bootstrap4upgrader
 
 
 License
